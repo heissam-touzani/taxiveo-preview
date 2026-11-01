@@ -1,0 +1,282 @@
+/*!
+ * TaxiVeo — jetons du système de design v4 = direction artistique C « Signal » (T-050, D-054).
+ * Référence : docs/03-design/da-v3/version-c.md et docs/03-design/design-system.md (v4).
+ *
+ * Règle de compatibilité : TOUS les noms --tv-* des versions 1 à 3 sont conservés
+ * (le plugin taxiveo-core et les espaces membres les utilisent) ; seules leurs
+ * VALEURS changent pour celles de C. Les anciens rôles sont redistribués :
+ *   bleu nuit (--tv-night*)  → noir chaud de C (scène) ;
+ *   ambre (--tv-amber*)      → vert signal de C (accent unique) ;
+ *   bleu primaire            → encre #121211 (boutons sombres et liens de C) ;
+ *   neutres porcelaine       → feuilles claires de C.
+ * Les jetons propres à C sont ajoutés en fin de fichier (--tv-ink*, --tv-signal*, --tv-coral*…).
+ *
+ * Ordre : ce fichier est chargé AVANT la feuille du kit Elementor. Les variables
+ * globales Elementor portent les mêmes noms et les mêmes valeurs (kit 5, T-050).
+ * Contrastes (WCAG 2.x) : version-c.md § Palette, design-system.md § 2.
+ */
+
+/* Geist variable 100–900 et Geist Mono 500 (SIL OFL 1.1, voir fonts/geist/OFL.txt). */
+@font-face {
+	font-family: "Geist";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url("../fonts/geist/Geist-Variable.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Geist Mono";
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url("../fonts/geist/GeistMono-Medium.woff2") format("woff2");
+}
+
+:root {
+	/* ---------- Feuilles claires (porcelaine chaude de C) ---------- */
+	--tv-bg: #F4F2EC;              /* --paper : 16,74:1 avec --tv-text */
+	--tv-surface: #FFFFFF;         /* --card */
+	--tv-surface-2: #FAF9F5;
+	--tv-surface-tint: #EBE8E0;    /* --paper-2 : survols, pastilles */
+	--tv-line: #E3E0D8;            /* filets décoratifs */
+	--tv-line-soft: #ECE9E2;
+	--tv-line-strong: #8A877F;     /* bordures de contrôles : 3,59:1 sur blanc (1.4.11) */
+	--tv-text: #121211;
+	--tv-text-2: #2C2C29;
+	--tv-text-muted: #55544D;      /* 6,79:1 sur papier, 7,60:1 sur blanc */
+	--tv-primary: #121211;         /* encre : boutons sombres, liens */
+	--tv-primary-hover: #2C2C29;
+	--tv-primary-soft: #EBE8E0;
+	--tv-on-primary: #FFFFFF;
+
+	/* ---------- Scène sombre (ex-« nuit » : noir chaud de C) ---------- */
+	--tv-night: #0C0C0B;           /* --ink */
+	--tv-night-2: #151513;         /* --ink-1 */
+	--tv-night-3: #1E1E1B;         /* --ink-2 */
+	--tv-night-line: #2A2A26;      /* ≈ filet blanc 10 % sur encre */
+	--tv-night-line-strong: #6E6D66; /* 3,63:1 sur encre */
+	--tv-night-hair: rgba(255, 255, 255, .1);
+	--tv-on-night: #F4F3EF;        /* 17,63:1 */
+	--tv-on-night-muted: #B4B3AB;  /* 9,30:1 sur encre, 7,94:1 sur --ink-2 */
+
+	/* ---------- Accent (ex-« ambre » : vert signal de C) ----------
+	 * Jamais en texte sur fond clair : utiliser --tv-amber-text (= --tv-signal-ink). */
+	--tv-amber: #3CEBA0;           /* signal : 12,66:1 sur encre */
+	--tv-amber-hover: #5FF0B3;
+	--tv-amber-2: #A9F5D2;         /* reflets, sélection */
+	--tv-on-amber: #0C0C0B;
+	--tv-amber-text: #077049;      /* 6,14:1 sur blanc, 5,48:1 sur papier */
+	--tv-amber-strong: #065F40;
+	--tv-amber-soft: #DCF7E9;      /* étiquette « vérifié » : #065F40 dessus = 6,81:1 */
+
+	/* ---------- États ---------- */
+	--tv-success: #077049;
+	--tv-success-soft: #DCF7E9;
+	--tv-danger: #A6321F;          /* corail d'encre : 5,70:1 sur #FFE6E1 */
+	--tv-danger-soft: #FFE6E1;
+	--tv-warning: #8A5A00;
+	--tv-warning-soft: #FBF1DC;
+	--tv-info: #0B6E85;
+	--tv-info-soft: #E3F2F5;
+
+	/* ---------- Univers : C n'a qu'un accent ; les univers deviennent neutres ---------- */
+	--tv-u-reseau: #077049;
+	--tv-u-reseau-soft: #DCF7E9;
+	--tv-u-pro: #121211;
+	--tv-u-pro-soft: #EBE8E0;
+	--tv-u-business: #55544D;
+	--tv-u-business-soft: #EBE8E0;
+
+	/* ---------- Publicité (jamais l'accent) ---------- */
+	--tv-ad-bg: #EFEDE7;
+	--tv-ad-text: #55544D;
+	--tv-ad-border: #7C7B74;       /* 4,1:1 sur blanc */
+
+	/* ---------- Typographie ---------- */
+	--tv-font: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	--tv-font-family: var(--tv-font);
+	--tv-font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+	--tv-fw-regular: 400;
+	--tv-fw-medium: 550;
+	--tv-fw-bold: 600;
+	--tv-fw-black: 650;
+	--tv-fw-display: 600;
+	--tv-fs-2xs: .75rem;
+	--tv-fs-xs: .8125rem;
+	--tv-fs-sm: .9375rem;
+	--tv-fs-base: 1rem;
+	--tv-fs-lead: clamp(1.0625rem, 1rem + .3vw, 1.25rem);   /* --lead */
+	--tv-fs-h4: 1.1875rem;
+	--tv-fs-h3: clamp(1.25rem, 1.1rem + .5vw, 1.5rem);
+	--tv-fs-h2: clamp(1.75rem, 1.15rem + 1.75vw, 2.875rem); /* --h2 */
+	--tv-fs-h1: clamp(2.125rem, 1.15rem + 3.1vw, 4.25rem);  /* --h1 */
+	--tv-fs-display: clamp(2.125rem, 1.15rem + 3.1vw, 4.25rem);
+	--tv-lh-tight: 1.02;
+	--tv-lh-heading: 1.06;
+	--tv-lh-body: 1.6;
+	--tv-ls-heading: -.034em;
+	--tv-ls-display: -.036em;
+	--tv-ls-eyebrow: .12em;
+
+	/* ---------- Espacements (base 4 px) ---------- */
+	--tv-space-1: .25rem;
+	--tv-space-2: .5rem;
+	--tv-space-3: .75rem;
+	--tv-space-4: 1rem;
+	--tv-space-5: 1.5rem;
+	--tv-space-6: 2rem;
+	--tv-space-7: 3rem;
+	--tv-space-8: 4rem;
+	--tv-space-9: 6rem;
+	--tv-space-section: clamp(72px, 8.5vw, 128px);          /* --sec */
+	--tv-gutter: clamp(16px, 4vw, 48px);                    /* --gut */
+	--tv-container: 80rem;                                  /* 1280 px, --max */
+	--tv-container-narrow: 52rem;
+
+	/* ---------- Rayons (C : 10 / 18 / 24 / 36) ---------- */
+	--tv-radius-xs: 6px;
+	--tv-radius-sm: 8px;
+	--tv-radius-btn: 10px;         /* contrôles ; boutons : --tv-radius-pill */
+	--tv-radius-field: 16px;
+	--tv-radius-card: 18px;        /* --r */
+	--tv-radius-lg: 24px;          /* --r-l */
+	--tv-radius-xl: 36px;          /* --r-xl */
+	--tv-radius-pill: 999px;
+
+	/* ---------- Élévations (ombres encre chaude) ---------- */
+	--tv-shadow-1: 0 0 0 1px var(--tv-line), 0 1px 2px rgba(18, 18, 17, .04);
+	--tv-shadow-2: 0 1px 2px rgba(18, 18, 17, .05), 0 12px 32px -18px rgba(18, 18, 17, .3);
+	--tv-shadow-3: 0 0 0 1px var(--tv-line-2, #CFCCC3), 0 22px 44px -26px rgba(18, 18, 17, .38);
+	--tv-shadow-4: 0 4px 10px rgba(18, 18, 17, .08), 0 40px 80px -40px rgba(0, 0, 0, .6);
+	--tv-shadow-night: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 40px 80px -40px rgba(0, 0, 0, .9);
+	--tv-shadow-amber: 0 10px 30px -10px rgba(60, 235, 160, .55);
+	--tv-ring: 0 0 0 3px rgba(60, 235, 160, .45);
+	--tv-ring-primary: 0 0 0 4px rgba(18, 18, 17, .1);
+
+	/* ---------- Mouvement (C : .2 / .6 / 1,1 s, sortie expo) ---------- */
+	--tv-dur-1: 200ms;
+	--tv-dur-2: 280ms;
+	--tv-dur-3: 600ms;
+	--tv-dur-4: 900ms;
+	--tv-dur-5: 1100ms;
+	--tv-ease-out: cubic-bezier(.16, 1, .3, 1);
+	--tv-ease-inout: cubic-bezier(.65, 0, .35, 1);
+	--tv-ease-spring: cubic-bezier(.16, 1, .3, 1);   /* C n'utilise pas de rebond */
+	--tv-stagger: 90ms;
+	--tv-reveal-shift: 28px;
+
+	/* ---------- Mise en page ---------- */
+	--tv-tap: 44px;
+	--tv-header-h: 88px;           /* barre flottante : 14 px + 60 px + marge */
+	--tv-bottombar-h: 64px;
+	--tv-safe-bottom: env(safe-area-inset-bottom, 0px);
+	--tv-z-header: 50;
+	--tv-z-bar: 55;
+	--tv-z-overlay: 90;
+	--tv-z-toast: 100;
+}
+
+@media (max-width: 960px) {
+	:root { --tv-header-h: 80px; }
+}
+
+/* =====================================================================
+ * Compléments v3 conservés (T-046) — valeurs C.
+ * ===================================================================== */
+:root {
+	--tv-fs-display-xl: clamp(2.125rem, 1.15rem + 3.1vw, 4.25rem);
+	--tv-fs-num: clamp(1.75rem, 1.3rem + 1.6vw, 2.75rem);
+	--tv-fs-overline: .75rem;
+	--tv-ls-num: -.03em;
+	--tv-lh-display: 1.02;
+
+	--tv-rhythm: clamp(28px, 3.5vw, 52px);
+	--tv-space-section-sm: clamp(48px, 6vw, 88px);
+	--tv-grid-gap: 16px;
+	--tv-container-wide: 80rem;
+
+	--tv-surface-raised: #FFFFFF;
+	--tv-surface-sunken: #EBE8E0;
+	--tv-glass: rgba(255, 255, 255, .78);
+	--tv-glass-strong: rgba(255, 255, 255, .9);
+	--tv-glass-border: rgba(18, 18, 17, .08);
+	--tv-glass-night: rgba(16, 16, 15, .8);
+	--tv-glass-night-border: rgba(255, 255, 255, .12);
+	--tv-blur: blur(24px) saturate(140%);
+	--tv-night-grad: radial-gradient(48rem 30rem at 85% -10%, rgba(60, 235, 160, .1), transparent 62%), linear-gradient(180deg, #0C0C0B, #0C0C0B);
+
+	--tv-elev-0: none;
+	--tv-elev-1: var(--tv-shadow-1);
+	--tv-elev-2: var(--tv-shadow-2);
+	--tv-elev-3: var(--tv-shadow-3);
+	--tv-elev-4: var(--tv-shadow-4);
+	--tv-elev-5: 0 6px 14px rgba(18, 18, 17, .08), 0 60px 120px -40px rgba(0, 0, 0, .6);
+	--tv-ring-amber: 0 0 0 1px rgba(60, 235, 160, .6), 0 0 0 5px rgba(60, 235, 160, .16);
+
+	--tv-ease-snappy: cubic-bezier(.16, 1, .3, 1);
+	--tv-dur-page: 380ms;
+}
+
+/* =====================================================================
+ * Jetons propres à C (v4, T-050) — noms explicites, à préférer pour tout nouveau code.
+ * Correspondance avec c.css : --ink → --tv-ink, --signal → --tv-signal, etc.
+ * ===================================================================== */
+:root {
+	/* Scène */
+	--tv-ink: #0C0C0B;
+	--tv-ink-1: #151513;
+	--tv-ink-2: #1E1E1B;
+	--tv-ink-line: rgba(255, 255, 255, .1);
+	--tv-ink-line-2: rgba(255, 255, 255, .18);
+	--tv-on-ink: #F4F3EF;
+	--tv-on-ink-2: #B4B3AB;
+	--tv-on-ink-3: #8F8E87;        /* indications seulement (≥ 18 px ou décoratif) */
+
+	/* Feuilles */
+	--tv-paper: #F4F2EC;
+	--tv-paper-2: #EBE8E0;
+	--tv-card: #FFFFFF;
+	--tv-line-2: #CFCCC3;
+
+	/* Signal et accent rare */
+	--tv-signal: #3CEBA0;
+	--tv-signal-ink: #077049;
+	--tv-signal-deep: #065F40;
+	--tv-signal-soft: #DCF7E9;
+	--tv-coral: #FF7A66;           /* sur encre : 7,67:1 */
+	--tv-coral-ink: #A6321F;       /* sur --tv-coral-soft : 5,70:1 */
+	--tv-coral-soft: #FFE6E1;
+
+	/* Rayons, mouvement, gabarit (noms courts de C) */
+	--tv-r-s: 10px;
+	--tv-r: 18px;
+	--tv-r-l: 24px;
+	--tv-r-xl: 36px;
+	--tv-ease: cubic-bezier(.16, 1, .3, 1);
+	--tv-ease-io: cubic-bezier(.65, 0, .35, 1);
+	--tv-d1: .2s;
+	--tv-d2: .6s;
+	--tv-d3: 1.1s;
+	--tv-max: 1280px;
+	--tv-gut: clamp(16px, 4vw, 48px);
+	--tv-sec: clamp(72px, 8.5vw, 128px);
+	--tv-h1: clamp(2.125rem, 1.15rem + 3.1vw, 4.25rem);
+	--tv-h2: clamp(1.75rem, 1.15rem + 1.75vw, 2.875rem);
+	--tv-lead: clamp(1.0625rem, 1rem + .3vw, 1.25rem);
+	--tv-tabbar: 0px;              /* hauteur de la barre d'onglets mobile (posée à ≤ 720 px) */
+}
+
+@media (max-width: 720px) {
+	:root { --tv-r-xl: 26px; --tv-radius-xl: 26px; --tv-sec: 64px; --tv-space-section: 64px; --tv-tabbar: calc(64px + env(safe-area-inset-bottom, 0px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root { --tv-reveal-shift: 0px; }
+	*, *::before, *::after {
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .01ms !important;
+		transition-delay: 0s !important;
+		scroll-behavior: auto !important;
+	}
+}

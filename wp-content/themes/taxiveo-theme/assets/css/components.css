@@ -1,0 +1,240 @@
+/*!
+ * TaxiVeo — composants v4 = direction artistique C (T-050) et habillage des pages Elementor.
+ * Chargé après taxiveo-core/assets/elementor/widgets.css (priorité 40).
+ * Sommaire : 1. Composants globaux · 2. En-têtes de page Elementor · 3. Passeport (307) · 4. Comptes.
+ * Les cartes d'offres et de véhicules, listes, filtres et fiches : widgets.css (plugin), section « C ».
+ */
+
+/* =====================================================================
+   1. COMPOSANTS GLOBAUX
+   ===================================================================== */
+
+/* ---------- Titres en deux tons (C) ---------- */
+.tv-title-2tone { color: var(--tv-text-muted); }
+.tv-title-2tone strong { color: var(--tv-text); font-weight: inherit; }
+.tv-night .tv-title-2tone, .tv-dark .tv-title-2tone { color: var(--tv-on-ink-2); }
+.tv-night .tv-title-2tone strong, .tv-dark .tv-title-2tone strong { color: var(--tv-on-ink); }
+
+/* ---------- En-tête de section C : <div class="tv-sechead"><div>surtitre + h2</div><p class="tv-sub">…</p></div> ---------- */
+.tv-sechead { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px 48px; flex-wrap: wrap; margin-bottom: clamp(28px, 3.5vw, 52px); }
+.tv-sechead > div:first-child { max-width: 760px; }
+.tv-sechead .tv-eyebrow { margin-bottom: 14px; }
+.tv-sub { margin: 0; color: var(--tv-text-muted); font-size: var(--tv-lead); max-width: 440px; line-height: 1.5; }
+.tv-dark .tv-sub, .tv-night .tv-sub { color: var(--tv-on-ink-2); }
+.tv-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+.tv-actions--center { justify-content: center; }
+
+/* ---------- Feuilles C : la feuille claire recouvre la scène (coins arrondis) ---------- */
+.tv-sheet { position: relative; z-index: 2; background: var(--tv-paper); color: var(--tv-text); border-radius: var(--tv-r-xl) var(--tv-r-xl) 0 0; margin-top: calc(var(--tv-r-xl) * -1); }
+.tv-sheet + .tv-sheet--dark { margin-top: calc(var(--tv-r-xl) * -1); }
+.tv-sheet--dark { position: relative; z-index: 3; background: var(--tv-ink); color: var(--tv-on-ink); border-radius: var(--tv-r-xl) var(--tv-r-xl) 0 0; }
+.tv-sheet :focus-visible { outline-color: var(--tv-signal-ink); }
+.tv-sheet--dark :focus-visible, .tv-dark:not(.tv-sheet) :focus-visible { outline-color: var(--tv-signal); }
+.tv-sheet .tv-dim { color: var(--tv-text-muted); }
+
+/* ---------- Rails tactiles (mobile) ---------- */
+.tv-rail { scrollbar-width: none; }
+.tv-rail::-webkit-scrollbar { display: none; }
+
+/* ---------- Contrôle segmenté C (pastille glissante, motion.js) ---------- */
+.tv-seg { position: relative; display: inline-flex; gap: 2px; padding: 4px; border-radius: 14px; background: rgba(255, 255, 255, .05); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07); }
+.tv-seg__tab {
+	position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px;
+	border: 0; border-radius: 10px; background: none; color: var(--tv-on-ink-2); font: inherit; font-size: .875rem; font-weight: 550; white-space: nowrap; cursor: pointer;
+	transition: color .35s var(--tv-ease);
+}
+body button.tv-seg__tab, body button.tv-seg__tab:hover, body button.tv-seg__tab:focus { background: none; border: 0; border-radius: 10px; padding: 0 14px; color: var(--tv-on-ink-2); font-size: .875rem; font-weight: 550; }
+body button.tv-seg__tab:hover { color: var(--tv-on-ink); }
+body button.tv-seg__tab[aria-selected="true"] { color: var(--tv-ink); }
+.tv-seg__tab .tv-icon { width: 16px; height: 16px; }
+.tv-seg__ink {
+	position: absolute; top: 0; left: 0; width: var(--w, 0); height: var(--h, 40px); border-radius: 10px; background: var(--tv-on-ink);
+	box-shadow: 0 6px 18px -8px rgba(0, 0, 0, .6); transform: translate(var(--x, 4px), var(--y, 4px));
+	transition: transform .5s var(--tv-ease), width .5s var(--tv-ease), height .5s var(--tv-ease);
+}
+.tv-seg--light { background: var(--tv-paper-2); box-shadow: inset 0 0 0 1px var(--tv-line); }
+body .tv-seg--light button.tv-seg__tab { color: var(--tv-text-muted); }
+body .tv-seg--light button.tv-seg__tab:hover, body .tv-seg--light button.tv-seg__tab[aria-selected="true"] { color: var(--tv-text); }
+.tv-seg--light .tv-seg__ink { background: #fff; box-shadow: 0 1px 2px rgba(18, 18, 17, .08), 0 0 0 1px var(--tv-line); }
+/* Sans pastille (avant le script) : l'onglet choisi garde un fond. */
+.tv-seg:not(.is-ready) .tv-seg__ink { display: none; }
+body .tv-seg:not(.is-ready) button.tv-seg__tab[aria-selected="true"] { background: var(--tv-on-ink); }
+body .tv-seg--light:not(.is-ready) button.tv-seg__tab[aria-selected="true"] { background: #fff; }
+
+/* Ancien contrôle segmenté (espaces membres) : même langage */
+.tv-segmented { display: inline-flex; gap: 2px; padding: 4px; border-radius: 14px; background: var(--tv-paper-2); box-shadow: inset 0 0 0 1px var(--tv-line); }
+.tv-segmented > * { display: inline-flex; align-items: center; min-height: 38px; padding: 0 14px; border: 0; border-radius: 10px; background: transparent; color: var(--tv-text-muted); font: inherit; font-size: .875rem; font-weight: 550; text-decoration: none; cursor: pointer; transition: color var(--tv-d1), background-color var(--tv-d1); }
+.tv-segmented > [aria-current], .tv-segmented > [aria-selected="true"] { background: #fff; color: var(--tv-text); box-shadow: 0 1px 2px rgba(18, 18, 17, .08), 0 0 0 1px var(--tv-line); }
+
+/* Onglets soulignés des espaces membres (widgets : .tv-tabs) : filet signal qui se trace */
+.tv-tabs ul { gap: 2px; border-bottom: 1px solid var(--tv-line); scrollbar-width: none; }
+.tv-tabs ul::-webkit-scrollbar { display: none; }
+.tv-tabs a { position: relative; border-bottom: 0 !important; padding: 0 16px; border-radius: 10px 10px 0 0; transition: color var(--tv-d1) ease, background-color var(--tv-d1) ease; }
+.tv-tabs a:hover { background: rgba(18, 18, 17, .04); }
+.tv-tabs a::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: -1px; height: 2px; border-radius: 2px; background: var(--tv-text); transform: scaleX(0); transform-origin: 0 50%; transition: transform var(--tv-d2) var(--tv-ease); }
+.tv-tabs a[aria-current="page"] { color: var(--tv-text); }
+.tv-tabs a[aria-current="page"]::after { transform: scaleX(1); }
+
+/* ---------- Puces de filtres ---------- */
+button.tv-chip, a.tv-chip { cursor: pointer; text-decoration: none; }
+.tv-chip:hover { box-shadow: inset 0 0 0 1px var(--tv-text); color: var(--tv-text); }
+.tv-chip[aria-pressed="true"], .tv-chip.is-active { background: var(--tv-text); box-shadow: none; color: #fff; }
+.tv-chip.is-active .tv-icon { color: var(--tv-signal); }
+.tv-chip:active { transform: scale(.96); }
+.tv-chip .tv-icon { width: 16px; height: 16px; }
+.tv-chip--remove { background: var(--tv-signal-soft); box-shadow: none; color: var(--tv-signal-deep); }
+.tv-chip--remove .tv-icon { width: 14px; height: 14px; }
+
+/* ---------- Alertes et messages ---------- */
+.tv-alert { align-items: flex-start; border-radius: 16px; border-color: var(--tv-line); box-shadow: none; }
+.tv-alert--warn { border-color: rgba(138, 90, 0, .3); background: var(--tv-warning-soft); }
+.tv-alert--ok, .tv-alert--success { border-color: rgba(7, 112, 73, .25); background: var(--tv-signal-soft); }
+.tv-alert--error, .tv-alert--bad { border-color: rgba(166, 50, 31, .3); background: var(--tv-coral-soft); }
+.tv-form-status:not(:empty) { padding: 12px 16px; border-radius: 14px; background: var(--tv-surface); box-shadow: inset 0 0 0 1px var(--tv-line); font-weight: 600; animation: tv-pop var(--tv-d2) var(--tv-ease) both; }
+
+/* ---------- Toasts ---------- */
+.tv-toasts { position: fixed; z-index: var(--tv-z-toast); left: 50%; bottom: calc(24px + var(--tv-safe-bottom)); display: grid; gap: 8px; width: min(420px, calc(100vw - 24px)); transform: translateX(-50%); pointer-events: none; }
+.tv-toast { display: flex; align-items: center; gap: 12px; margin: 0; padding: 14px 18px; border-radius: 16px; background: rgba(18, 18, 17, .94); color: var(--tv-on-ink); box-shadow: inset 0 0 0 1px var(--tv-ink-line-2), var(--tv-shadow-4); font-weight: 550; font-size: var(--tv-fs-sm); pointer-events: auto; animation: tv-toast-in var(--tv-d2) var(--tv-ease) both; }
+.tv-toast .tv-icon { color: var(--tv-signal); }
+@keyframes tv-toast-in { from { opacity: 0; transform: translateY(16px) scale(.97); } to { opacity: 1; transform: none; } }
+@media (max-width: 720px) { .tv-toasts { bottom: calc(var(--tv-tabbar) + 18px); } }
+
+.tv-modal__foot { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+/* ---------- Squelettes de chargement ---------- */
+.tv-skeleton { position: relative; overflow: hidden; border-radius: 10px; background: var(--tv-paper-2); color: transparent !important; }
+.tv-skeleton::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .65), transparent); animation: tv-shimmer 1.4s ease-in-out infinite; }
+.tv-skeleton--line { height: 14px; margin: 8px 0; }
+.tv-skeleton--title { height: 22px; width: 60%; }
+.tv-skeleton--card { height: 220px; border-radius: var(--tv-radius-card); }
+@keyframes tv-shimmer { to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) { .tv-skeleton::after { display: none; } }
+
+/* ---------- Tableaux et listes de tableau de bord ---------- */
+.tv-table-wrap { overflow-x: auto; border: 0; box-shadow: 0 0 0 1px var(--tv-line); border-radius: var(--tv-radius-card); background: var(--tv-surface); }
+.tv-table { width: 100%; border-collapse: collapse; font-size: var(--tv-fs-sm); }
+.tv-table th { padding: 12px 16px; text-align: left; font-family: var(--tv-font-mono); font-size: .6875rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--tv-text-muted); background: var(--tv-surface-2); border-bottom: 1px solid var(--tv-line); white-space: nowrap; }
+.tv-table td { padding: 14px 16px; border-bottom: 1px solid var(--tv-line-soft); vertical-align: middle; }
+.tv-table tr:last-child td { border-bottom: 0; }
+.tv-table tbody tr { transition: background-color var(--tv-d1) ease; }
+.tv-table tbody tr:hover { background: var(--tv-surface-2); }
+.tv-rows { display: grid; margin: 0; padding: 0; list-style: none; box-shadow: 0 0 0 1px var(--tv-line); border-radius: var(--tv-radius-card); background: var(--tv-surface); overflow: hidden; }
+.tv-rows > li { display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 12px 18px; border-top: 1px solid var(--tv-line-soft); }
+.tv-rows > li:first-child { border-top: 0; }
+
+/* ---------- Avatars ---------- */
+.tv-avatar { background: var(--tv-ink-2); color: var(--tv-on-ink); border-radius: 50%; box-shadow: inset 0 0 0 1px var(--tv-ink-line-2); }
+.tv-avatar--sm { border-radius: 50%; }
+
+/* ---------- États vides (C : sobres, une action réelle) ---------- */
+.tv-empty {
+	position: relative; overflow: hidden; padding: clamp(36px, 5vw, 56px) 24px; border: 0; border-radius: var(--tv-r-l);
+	background: var(--tv-card); box-shadow: 0 0 0 1px var(--tv-line); text-align: center;
+}
+.tv-empty::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--tv-signal), transparent); opacity: .7; }
+.tv-empty > * { position: relative; }
+.tv-empty__icon { display: inline-grid; place-items: center; width: 56px; height: 56px; margin-bottom: 16px; border-radius: 16px; background: var(--tv-ink); color: var(--tv-signal); box-shadow: none; }
+.tv-empty__icon .tv-icon { width: 24px; height: 24px; }
+.tv-empty__title { margin: 0; font-size: 1.25rem; font-weight: 600; letter-spacing: -.02em; }
+.tv-empty .tv-muted { max-width: 46ch; margin: 8px auto 0; }
+.tv-empty__cta { margin: 20px 0 0; }
+
+/* ---------- Pagination ---------- */
+.tv-pager a, .tv-pager span[aria-current] { border-radius: var(--tv-radius-pill); }
+.tv-pager [aria-current] { background: var(--tv-text); color: #fff; }
+
+/* ---------- Contrôles de formulaire des widgets ---------- */
+.tv-check__box { border-radius: 6px; transition: background-color var(--tv-d1) ease, border-color var(--tv-d1) ease, transform var(--tv-d1) var(--tv-ease); }
+.tv-check input:checked + .tv-check__box { background: var(--tv-text); border-color: var(--tv-text); color: var(--tv-signal); }
+.tv-radio { border-radius: 16px; border-color: var(--tv-line); transition: border-color var(--tv-d1) ease, background-color var(--tv-d1) ease, box-shadow var(--tv-d1) ease; }
+.tv-radio:hover { border-color: var(--tv-line-strong); }
+.tv-radio:has(input:checked) { border-color: var(--tv-text); background: var(--tv-surface); box-shadow: 0 0 0 1px var(--tv-text); }
+.tv-form .tv-input, .tv-form .tv-select, .tv-form .tv-textarea { border-radius: 14px; }
+
+/* ---------- Divers conservés (espaces membres) ---------- */
+.tv-badge--glass { background: rgba(12, 12, 11, .72); color: #fff; box-shadow: none; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.tv-badge--glass .tv-icon { color: var(--tv-signal); }
+.tv-figures { gap: 0; margin-top: var(--tv-space-7); padding: 0; border: 0; box-shadow: 0 0 0 1px var(--tv-line); border-radius: var(--tv-radius-lg); background: var(--tv-surface); }
+.tv-figures div { padding: 24px 28px; border-left: 1px solid var(--tv-line); }
+.tv-figures div:first-child { border-left: 0; }
+.tv-figures dd { font-size: var(--tv-fs-num); font-weight: 600; letter-spacing: var(--tv-ls-num); color: var(--tv-text); line-height: 1; font-variant-numeric: tabular-nums; }
+.tv-figures dt { margin-top: 8px; }
+.tv-pagehead { background: var(--tv-paper); border-bottom-color: var(--tv-line); }
+.tv-panel { border-radius: var(--tv-radius-lg); }
+.tv-pp-id { border-radius: var(--tv-radius-xl); }
+@keyframes tv-float { 50% { transform: translateY(-10px); } }
+
+/* =====================================================================
+   2. EN-TÊTES DE PAGE ELEMENTOR (« header.tv-night » : Emplois, Véhicules, Actualités…)
+   Scène d'encre, surtitre mono, titre en deux tons, la feuille claire suivante recouvre.
+   ===================================================================== */
+.elementor header.tv-night {
+	position: relative; overflow: hidden; isolation: isolate; border-bottom: 0;
+	padding-block: clamp(2.5rem, 1rem + 5vw, 5.5rem) calc(clamp(3rem, 1.5rem + 5vw, 6rem) + var(--tv-r-xl));
+	background: var(--tv-ink); color: var(--tv-on-ink);
+}
+.elementor header.tv-night::before {
+	content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+	background: radial-gradient(42rem 26rem at 88% -20%, rgba(60, 235, 160, .12), transparent 62%), radial-gradient(30rem 20rem at 0% 120%, rgba(255, 255, 255, .05), transparent 60%);
+}
+.elementor header.tv-night::after {
+	content: ""; position: absolute; inset: -50%; z-index: -1; pointer-events: none; opacity: .07; mix-blend-mode: overlay;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.elementor header.tv-night h1 { max-width: 18ch; margin: 0; color: var(--tv-on-ink); font-size: var(--tv-h1); font-weight: 600; line-height: 1.02; letter-spacing: -.036em; }
+.elementor header.tv-night .tv-lead { max-width: 40rem; margin-top: 1.25rem; color: var(--tv-on-ink-2); }
+.elementor header.tv-night .tv-eyebrow { color: var(--tv-on-ink-2); }
+.elementor header.tv-night .tv-eyebrow::before { opacity: .5; }
+/* Entrée : titre et chapeau qui montent au chargement (sans masquer sans JS). */
+.tv-js .elementor header.tv-night :is(.tv-eyebrow, h1, .tv-lead) { opacity: 0; transform: translate3d(0, 18px, 0); transition: opacity .9s var(--tv-ease), transform .9s var(--tv-ease); }
+.tv-js .elementor header.tv-night h1 { transition-delay: .08s; }
+.tv-js .elementor header.tv-night .tv-lead { transition-delay: .18s; }
+.tv-js.is-ready .elementor header.tv-night :is(.tv-eyebrow, h1, .tv-lead) { opacity: 1; transform: none; }
+/* La section qui suit l'en-tête : feuille claire qui recouvre la scène. */
+.elementor header.tv-night + section, .elementor header.tv-night + .e-con {
+	position: relative; z-index: 2; margin-top: calc(var(--tv-r-xl) * -1); border-radius: var(--tv-r-xl) var(--tv-r-xl) 0 0; background: var(--tv-paper);
+}
+@media (max-width: 720px) {
+	.elementor header.tv-night { padding-block: 2rem calc(2.75rem + var(--tv-r-xl)); }
+}
+@media (prefers-reduced-motion: reduce) {
+	.tv-js .elementor header.tv-night :is(.tv-eyebrow, h1, .tv-lead) { opacity: 1; transform: none; }
+}
+
+/* =====================================================================
+   3. PASSEPORT CHAUFFEUR (307) : sections Elementor sous la section C
+   ===================================================================== */
+.tv-cpage__content .elementor-307 > .e-con.tv-section { padding-block: var(--tv-sec); background: transparent; border: 0; }
+.tv-cpage__content .elementor-307 > .e-con.tv-section:first-child { padding-top: clamp(64px, 7vw, 104px); }
+.elementor-307 .e-con.tv-section h2 { max-width: 18ch; margin: 0; font-size: var(--tv-h2); line-height: 1.06; letter-spacing: -.034em; }
+.elementor-307 .e-con > .tv-container > .e-con:has(> .tv-card) { gap: 16px; margin-top: clamp(24px, 3vw, 40px); counter-reset: tv-pp; }
+.elementor-307 .e-con.tv-card {
+	position: relative; padding: 26px 24px 24px; border-radius: var(--tv-r-l); counter-increment: tv-pp;
+	transition: transform var(--tv-d2) var(--tv-ease), box-shadow var(--tv-d2) var(--tv-ease);
+}
+.elementor-307 .e-con.tv-card::before {
+	content: counter(tv-pp, decimal-leading-zero); position: static; inset: auto; display: inline-flex; align-self: flex-start; width: max-content; align-items: center; height: 26px; padding: 0 10px; margin-bottom: 22px;
+	border-radius: 999px; box-shadow: inset 0 0 0 1px var(--tv-line-2); font-family: var(--tv-font-mono); font-size: .75rem; letter-spacing: .12em; color: var(--tv-text-muted);
+}
+.elementor-307 .e-con.tv-card h3 { margin: 0 0 8px; font-size: 1.25rem; font-weight: 600; letter-spacing: -.022em; }
+.elementor-307 .e-con.tv-card p { margin: 0; color: var(--tv-text-muted); }
+@media (hover: hover) and (pointer: fine) { .elementor-307 .e-con.tv-card:hover { transform: translateY(-3px); box-shadow: 0 0 0 1px var(--tv-line-2), 0 22px 44px -26px rgba(18, 18, 17, .38); } }
+/* Visibilité : le niveau « Recruteurs » sur encre (signal) */
+.elementor-307 > .e-con.tv-section:nth-child(2) .e-con.tv-card:nth-child(2) { background: var(--tv-text); color: var(--tv-on-ink); box-shadow: none; }
+.elementor-307 > .e-con.tv-section:nth-child(2) .e-con.tv-card:nth-child(2) h3 { color: var(--tv-on-ink); }
+.elementor-307 > .e-con.tv-section:nth-child(2) .e-con.tv-card:nth-child(2) p { color: #C4C3BC; }
+.elementor-307 > .e-con.tv-section:nth-child(2) .e-con.tv-card:nth-child(2)::before { background: var(--tv-signal); color: var(--tv-ink); box-shadow: none; }
+/* Questions fréquentes : liste à filets (C : actualités) */
+.elementor-307 > .e-con.tv-section:nth-child(3) h3 { margin: 0; padding-top: 22px; border-top: 1px solid var(--tv-line-2); font-size: 1.1875rem; letter-spacing: -.02em; }
+.elementor-307 > .e-con.tv-section:nth-child(3) h3 + p { margin: 6px 0 0; color: var(--tv-text-muted); }
+
+/* =====================================================================
+   4. PAGES DE COMPTE ([taxiveo_login] / [taxiveo_register])
+   ===================================================================== */
+.elementor:has(.tv-account) h1 { font-size: clamp(2rem, 1.4rem + 2vw, 3rem); }
+.elementor .tv-account__title { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.elementor .tv-card:has(.tv-account) { border-radius: var(--tv-r-l); box-shadow: 0 0 0 1px var(--tv-line), 0 24px 50px -28px rgba(18, 18, 17, .3); }
+.tv-account__form .tv-btn--block { --_h: 52px; }
+
+/* Surtitre des pages Elementor : police mono garantie (repli si la variable du kit change). */
+body .elementor .tv-eyebrow { font-family: var(--tv-font-mono); font-weight: 500; letter-spacing: .12em; }

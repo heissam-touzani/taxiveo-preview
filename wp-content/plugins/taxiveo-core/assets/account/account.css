@@ -1,0 +1,26 @@
+/* TaxiVeo — parcours de compte (T-033). Utilise les jetons --tv-* du thème, sans les redéfinir. */
+.tv-account { max-width: 560px; margin-inline: auto; }
+.tv-account__form { display: grid; gap: var(--tv-space-4, 16px); }
+.tv-account__title { margin: 0; font-size: var(--tv-fs-h3); line-height: var(--tv-lh-heading); }
+.tv-account__row { display: grid; gap: var(--tv-space-4, 16px); }
+@media (min-width: 480px) { .tv-account__row { grid-template-columns: 1fr 1fr; } }
+.tv-account__choices { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--tv-space-2, 8px) var(--tv-space-4, 16px); }
+.tv-account__choices legend { width: 100%; margin-bottom: var(--tv-space-2, 8px); }
+.tv-account__choice { display: inline-flex; align-items: center; gap: var(--tv-space-2, 8px); min-height: var(--tv-tap, 44px); cursor: pointer; }
+.tv-account__consents { border: 0; padding: 0; margin: 0; display: grid; gap: var(--tv-space-2, 8px); }
+.tv-account__check { display: grid; grid-template-columns: auto 1fr; align-items: start; gap: var(--tv-space-2, 8px); }
+.tv-account__check input { margin-top: .3em; width: 1.1em; height: 1.1em; }
+.tv-account__check .tv-error { grid-column: 2; }
+.tv-account__hp { position: absolute !important; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.tv-account__notice { padding: var(--tv-space-3, 12px) var(--tv-space-4, 16px); border-radius: var(--tv-radius-sm); border: 1px solid var(--tv-line); background: var(--tv-surface); margin-bottom: var(--tv-space-4, 16px); }
+.tv-account__notice--success { border-color: var(--tv-success); background: var(--tv-success-soft); }
+.tv-account__notice--error { border-color: var(--tv-danger); color: var(--tv-text); }
+.tv-account__notice--info { border-color: var(--tv-info); }
+.tv-account__pw { display: flex; gap: var(--tv-space-2, 8px); align-items: center; }
+.tv-account__pw .tv-input { flex: 1; }
+.tv-account__meter { height: 4px; border-radius: 2px; background: var(--tv-line); overflow: hidden; margin-top: var(--tv-space-2, 8px); }
+.tv-account__meter span { display: block; height: 100%; width: 0; background: var(--tv-danger); transition: width var(--tv-dur-2) var(--tv-ease-out); }
+.tv-account__meter[data-level="2"] span { background: var(--tv-amber); }
+.tv-account__meter[data-level="3"] span { background: var(--tv-success); }
+.tv-account-menu { display: inline-flex; gap: var(--tv-space-2, 8px); align-items: center; }
+@media (prefers-reduced-motion: reduce) { .tv-account__meter span { transition: none; } }

@@ -1,0 +1,312 @@
+/*!
+ * TaxiVeo — base, typographie, mise en page et composants élémentaires.
+ * Système de design v4 = direction artistique C « Signal » (T-050, D-054).
+ * Dépend de tokens.css. Composants riches et habillage des widgets : components.css.
+ * Toutes les classes v1–v3 sont conservées (utilisées par taxiveo-core et Elementor).
+ */
+
+/* ============ Base ============ */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 96px; background: var(--tv-bg); }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body {
+	margin: 0;
+	background: var(--tv-bg);
+	color: var(--tv-text);
+	font-family: var(--tv-font);
+	font-size: var(--tv-fs-base);
+	font-weight: var(--tv-fw-regular);
+	line-height: var(--tv-lh-body);
+	font-feature-settings: "ss01", "cv11";
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-tap-highlight-color: transparent;
+	overflow-x: clip;
+}
+img, svg, video { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+a { color: var(--tv-primary); text-underline-offset: .2em; text-decoration-thickness: 1px; transition: color var(--tv-dur-1) ease; }
+a:hover { color: var(--tv-primary-hover); text-decoration-thickness: 1.5px; }
+h1, h2, h3, h4, h5, h6 { font-family: var(--tv-font); color: inherit; font-weight: var(--tv-fw-display); line-height: var(--tv-lh-heading); letter-spacing: var(--tv-ls-heading); text-wrap: balance; }
+h1 { font-size: var(--tv-fs-h1); line-height: var(--tv-lh-tight); letter-spacing: var(--tv-ls-display); }
+h2 { font-size: var(--tv-fs-h2); }
+h3 { font-size: var(--tv-fs-h3); letter-spacing: -.022em; line-height: 1.22; }
+h4 { font-size: var(--tv-fs-h4); letter-spacing: -.015em; line-height: 1.3; }
+p { text-wrap: pretty; }
+::selection { background: var(--tv-amber-2); color: var(--tv-text); }
+
+/* Titres Elementor : interlettrage serré de C. */
+.elementor-kit-5 h1, .elementor-kit-5 h2 { font-weight: var(--tv-fw-display); letter-spacing: var(--tv-ls-display); }
+.elementor-kit-5 h3, .elementor-kit-5 h4 { letter-spacing: -.022em; }
+
+/* Focus toujours visible : vert d'encre sur clair, signal sur scène. */
+:focus-visible { outline: 2px solid var(--tv-signal-ink); outline-offset: 3px; border-radius: 6px; }
+.tv-night :focus-visible,
+.tv-dark :focus-visible,
+.tv-nav :focus-visible,
+.tv-tabbar :focus-visible,
+.tv-footer :focus-visible { outline-color: var(--tv-signal); }
+
+/* Accessibilité */
+.tv-sr { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+a.tv-skip { position: fixed; left: 12px; top: -80px; z-index: 120; padding: 10px 16px; background: var(--tv-signal); color: var(--tv-ink); border-radius: var(--tv-radius-pill); font-weight: var(--tv-fw-bold); text-decoration: none; transition: top var(--tv-dur-1); }
+a.tv-skip:focus { top: 12px; color: var(--tv-ink); }
+.tv-skip-target:focus { outline: none; }
+.tv-icon { display: block; width: 20px; height: 20px; flex: none; }
+.tv-icon--sm { width: 16px; height: 16px; }
+.tv-icon--lg { width: 24px; height: 24px; }
+/* Sprite de C (pictogrammes au trait) : <svg class="tv-i"><use href="#tvc-…"></svg> */
+svg.tv-i { width: 1.15em; height: 1.15em; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ============ Mise en page ============ */
+.tv-container { width: 100%; max-width: var(--tv-max); margin-inline: auto; padding-inline: var(--tv-gut); }
+.tv-container--narrow { max-width: calc(var(--tv-container-narrow) + 2 * var(--tv-gut)); }
+.tv-section { padding-block: var(--tv-space-section); }
+.tv-section--tight { padding-block: clamp(2.5rem, 1.5rem + 4vw, 4.5rem); }
+
+/* Surtitre C : mono, capitales, numéro en signal et filet qui se trace.
+ * <p class="tv-eyebrow"><b>01</b><span class="tv-eyebrow__line"></span>Texte</p> */
+.tv-eyebrow {
+	display: inline-flex; align-items: center; gap: 10px; margin: 0 0 14px;
+	font-family: var(--tv-font-mono); font-size: .75rem; font-weight: 500; line-height: 1.4;
+	letter-spacing: var(--tv-ls-eyebrow); text-transform: uppercase; color: var(--tv-text-muted);
+}
+.tv-eyebrow b { color: var(--tv-signal-ink); font-weight: 500; }
+.tv-eyebrow__line { width: 28px; height: 1px; background: currentColor; opacity: .5; transform-origin: 0 50%; }
+.tv-js .tv-eyebrow__line { transform: scaleX(0); transition: transform 1s var(--tv-ease) .25s; }
+.tv-js .in .tv-eyebrow__line, .tv-js .in.tv-eyebrow .tv-eyebrow__line, .tv-js .is-in .tv-eyebrow__line { transform: scaleX(1); }
+/* Sans numéro ni filet (titres Elementor) : le filet est dessiné en pseudo-élément. */
+.tv-eyebrow:not(:has(.tv-eyebrow__line, .tv-pulse))::before { content: ""; width: 28px; height: 1px; background: currentColor; opacity: .5; flex: none; }
+.tv-lead { font-size: var(--tv-fs-lead); line-height: 1.5; color: var(--tv-text-muted); max-width: 40rem; }
+.tv-muted { color: var(--tv-text-muted); }
+.tv-grid { display: grid; gap: 16px; }
+.tv-grid--2 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr)); }
+.tv-grid--3 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); }
+.tv-grid--4 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 15.5rem), 1fr)); }
+.tv-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: var(--tv-fs-sm); color: var(--tv-text-muted); }
+
+/* Titre C en deux tons : <h2 class="tv-h2">Texte <span class="tv-dim">suite.</span></h2> */
+.tv-h2 { margin: 0; font-size: var(--tv-h2); line-height: 1.06; font-weight: 600; letter-spacing: -.034em; text-wrap: balance; }
+.tv-dim { color: var(--tv-text-muted); }
+
+/* Scène sombre (ex-« nuit ») */
+.tv-night, .tv-dark { background: var(--tv-ink); color: var(--tv-on-ink); }
+.tv-night .tv-eyebrow, .tv-dark .tv-eyebrow { color: var(--tv-on-ink-2); }
+.tv-night .tv-eyebrow b, .tv-dark .tv-eyebrow b { color: var(--tv-signal); }
+.tv-night .tv-lead, .tv-night .tv-muted, .tv-night .tv-dim,
+.tv-dark .tv-lead, .tv-dark .tv-muted, .tv-dark .tv-dim { color: var(--tv-on-ink-2); }
+.tv-night a:not(.tv-btn), .tv-dark a:not(.tv-btn) { color: var(--tv-on-ink); }
+
+/* ============ Boutons (C : pilule, 48 px, reflet balayé sur le signal) ============
+ * .tv-btn / --primary : encre sur clair · --accent : signal · --secondary : contour
+ * · --ghost : discret · --on-night : contour sur scène · --danger. */
+.tv-btn {
+	--_bg: var(--tv-text); --_fg: #fff; --_bd: transparent; --_px: 22px; --_fs: .9375rem; --_h: 48px;
+	position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+	min-height: var(--_h); padding: 0 var(--_px); border: 0; border-radius: var(--tv-radius-pill);
+	background: var(--_bg); color: var(--_fg); box-shadow: inset 0 0 0 1px var(--_bd);
+	font-family: var(--tv-font); font-weight: 600; font-size: var(--_fs); line-height: 1.1; letter-spacing: -.005em;
+	text-decoration: none; white-space: nowrap; cursor: pointer; isolation: isolate; overflow: hidden;
+	transition: transform var(--tv-d1) var(--tv-ease), box-shadow var(--tv-d2) var(--tv-ease), background-color var(--tv-d1), color var(--tv-d1);
+}
+.tv-btn::after {
+	content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+	background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, .45) 50%, transparent 70%);
+	transform: translateX(-120%); transition: transform .7s var(--tv-ease); opacity: 0;
+}
+.tv-btn:hover, .tv-btn:focus { color: var(--_fg); text-decoration: none; }
+.tv-btn:active { transform: scale(.98); }
+.tv-btn .tv-icon, .tv-btn .tv-i { width: 16px; height: 16px; transition: transform var(--tv-d1) var(--tv-ease); }
+.tv-btn:hover .tv-icon--move, .tv-btn:hover .tv-i { transform: translateX(3px); }
+.tv-btn--primary:hover, .tv-btn:not([class*="tv-btn--"]):hover { --_bg: #000; box-shadow: 0 12px 30px -14px rgba(0, 0, 0, .55); }
+.tv-btn--accent { --_bg: var(--tv-signal); --_fg: var(--tv-ink); --_bd: transparent; }
+.tv-btn--accent::after { opacity: 1; }
+.tv-btn--accent:hover { --_bg: var(--tv-signal); box-shadow: var(--tv-shadow-amber); }
+.tv-btn--accent:hover::after { transform: translateX(120%); }
+.tv-btn--secondary { --_bg: transparent; --_fg: var(--tv-text); --_bd: var(--tv-line-strong); }
+.tv-btn--secondary:hover { --_bg: #fff; --_bd: var(--tv-text); }
+.tv-night .tv-btn--secondary, .tv-dark .tv-btn--secondary, .tv-btn--on-night { --_bg: transparent; --_fg: var(--tv-on-ink); --_bd: var(--tv-ink-line-2); }
+.tv-night .tv-btn--secondary:hover, .tv-dark .tv-btn--secondary:hover, .tv-btn--on-night:hover { --_bg: rgba(255, 255, 255, .07); --_bd: rgba(255, 255, 255, .38); }
+.tv-night .tv-btn--primary, .tv-dark .tv-btn--primary { --_bg: var(--tv-on-ink); --_fg: var(--tv-ink); }
+.tv-btn--ghost { --_bg: transparent; --_fg: var(--tv-text); --_px: 14px; }
+.tv-btn--ghost:hover { --_bg: var(--tv-surface-tint); }
+.tv-night .tv-btn--ghost, .tv-dark .tv-btn--ghost { --_fg: var(--tv-on-ink); }
+.tv-night .tv-btn--ghost:hover, .tv-dark .tv-btn--ghost:hover { --_bg: rgba(255, 255, 255, .07); }
+.tv-btn--danger { --_bg: var(--tv-danger); --_fg: #fff; }
+.tv-btn--sm { --_h: 40px; --_px: 16px; --_fs: .875rem; }
+.tv-btn--lg { --_h: 56px; --_px: 28px; --_fs: 1rem; }
+.tv-btn--block { width: 100%; }
+.tv-btn[disabled], .tv-btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+.tv-btn[aria-busy="true"] { color: transparent !important; pointer-events: none; }
+.tv-btn[aria-busy="true"]::before {
+	content: ""; position: absolute; left: 50%; top: 50%; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%;
+	border: 2px solid var(--_fg); border-right-color: transparent; animation: tv-spin .7s linear infinite;
+}
+/* Lien C : soulignement qui se trace, flèche qui avance. */
+.tv-link-arrow, .tv-link {
+	display: inline-flex; align-items: center; gap: 6px; min-height: var(--tv-tap); white-space: nowrap;
+	font-weight: 600; font-size: .9375rem; text-decoration: none; color: inherit;
+	background: linear-gradient(currentColor, currentColor) 0 calc(100% - 10px) / 0 1px no-repeat;
+	transition: background-size var(--tv-d2) var(--tv-ease);
+}
+.tv-link-arrow:hover, .tv-link:hover { background-size: 100% 1px; color: inherit; }
+.tv-link-arrow .tv-icon, .tv-link .tv-i { width: 16px; height: 16px; transition: transform var(--tv-d1) var(--tv-ease); }
+.tv-link-arrow:hover .tv-icon, .tv-link:hover .tv-i { transform: translateX(3px); }
+.tv-iconbtn {
+	display: inline-grid; place-items: center; width: var(--tv-tap); height: var(--tv-tap); flex: none; padding: 0;
+	--_ibg: transparent;
+	border: 0; border-radius: var(--tv-radius-pill); background: var(--_ibg); color: inherit; cursor: pointer;
+	transition: background-color var(--tv-d1) ease, transform var(--tv-d1) var(--tv-ease);
+}
+.tv-iconbtn:hover, .tv-iconbtn:focus { --_ibg: rgba(18, 18, 17, .06); color: inherit; }
+.tv-iconbtn:active { transform: scale(.9); }
+
+/* Protection contre les styles globaux de boutons du kit Elementor et du reset Hello. */
+body :is(a, button, input[type="button"], input[type="submit"]).tv-btn,
+body :is(a, button, input[type="button"], input[type="submit"]).tv-btn:hover,
+body :is(a, button, input[type="button"], input[type="submit"]).tv-btn:focus {
+	background: var(--_bg); color: var(--_fg); border: 0; border-radius: var(--tv-radius-pill);
+	padding: 0 var(--_px); font-size: var(--_fs); font-weight: 600;
+}
+body button.tv-iconbtn,
+body button.tv-iconbtn:hover,
+body button.tv-iconbtn:focus {
+	background: var(--_ibg); color: inherit; border: 0; border-radius: var(--tv-radius-pill); padding: 0;
+}
+
+/* ============ Étiquettes (C : .tag) ============ */
+.tv-badge, .tv-tag {
+	display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border-radius: var(--tv-radius-pill);
+	font-size: var(--tv-fs-xs); font-weight: 500; line-height: 1; white-space: nowrap; letter-spacing: 0;
+	background: var(--tv-paper); color: var(--tv-text); box-shadow: inset 0 0 0 1px var(--tv-line);
+}
+.tv-badge .tv-icon, .tv-tag .tv-i { width: 14px; height: 14px; }
+/* Vérifié : uniquement après contrôle réel côté serveur (taxiveo-core), jamais déclaratif. */
+.tv-badge--verified, .tv-tag--signal { background: var(--tv-signal-soft); color: var(--tv-signal-deep); box-shadow: none; }
+.tv-tag--coral { background: var(--tv-coral-soft); color: var(--tv-coral-ink); box-shadow: none; }
+.tv-badge--featured, .tv-badge--sponsored { background: var(--tv-text); color: #fff; box-shadow: none; }
+.tv-badge--premium { background: var(--tv-ink); color: var(--tv-signal); box-shadow: none; }
+.tv-badge--declared, .tv-tag--mono { background: none; color: var(--tv-text-muted); box-shadow: inset 0 0 0 1px var(--tv-line-2); }
+.tv-tag--mono { font-family: var(--tv-font-mono); font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase; }
+/* Publicité : fond neutre, filet pointillé, jamais l'accent. */
+.tv-badge--ad { background: var(--tv-ad-bg); color: var(--tv-ad-text); box-shadow: none; border: 1px dashed var(--tv-ad-border); text-transform: uppercase; letter-spacing: .08em; font-family: var(--tv-font-mono); font-size: .6875rem; }
+.tv-status { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: var(--tv-fs-sm); }
+.tv-status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--tv-signal-ink); box-shadow: 0 0 0 4px rgba(7, 112, 73, .14); }
+.tv-chip {
+	display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px; border-radius: var(--tv-radius-pill);
+	background: var(--tv-surface); border: 0; box-shadow: inset 0 0 0 1px var(--tv-line-2); color: var(--tv-text); font-size: .875rem; font-weight: 550;
+	transition: box-shadow var(--tv-d1) ease, background-color var(--tv-d1) ease, color var(--tv-d1) ease, transform var(--tv-d1) var(--tv-ease);
+}
+.tv-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+
+/* ============ Cartes (C : blanc, filet, rayon 18, élévation au survol) ============ */
+.tv-card {
+	position: relative; display: flex; flex-direction: column; background: var(--tv-card); color: var(--tv-text);
+	border: 0; border-radius: var(--tv-radius-card); box-shadow: 0 0 0 1px var(--tv-line), 0 1px 2px rgba(18, 18, 17, .04);
+	transition: transform var(--tv-d2) var(--tv-ease), box-shadow var(--tv-d2) var(--tv-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+	.tv-card--hover:hover { transform: translateY(-3px); box-shadow: 0 0 0 1px var(--tv-line-2), 0 22px 44px -26px rgba(18, 18, 17, .38); }
+}
+.tv-card__body { display: flex; flex-direction: column; gap: 8px; padding: 18px 20px 20px; flex: 1; }
+.tv-card__title { margin: 0; font-size: 1.0625rem; font-weight: 600; letter-spacing: -.015em; line-height: 1.3; }
+a.tv-card__link { color: inherit; text-decoration: none; }
+.tv-card__link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.tv-card__link:focus-visible { outline: none; }
+.tv-card:has(.tv-card__link:focus-visible) { outline: 2px solid var(--tv-signal-ink); outline-offset: 3px; }
+.tv-card--featured { box-shadow: 0 0 0 1.5px var(--tv-text), var(--tv-shadow-2); }
+
+/* Encart publicitaire : bordure pointillée, étiquette « Publicité » obligatoire. */
+.tv-ad {
+	position: relative; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 20px; padding: 24px 26px;
+	border-radius: var(--tv-radius-card); background: var(--tv-ad-bg); border: 1.5px dashed var(--tv-ad-border); color: var(--tv-text);
+}
+.tv-ad__label { position: absolute; top: -13px; left: 18px; }
+.tv-ad p { margin: 0; color: var(--tv-ad-text); font-size: var(--tv-fs-sm); }
+@media (max-width: 860px) {
+	.tv-ad { grid-template-columns: auto 1fr; }
+	.tv-ad > .tv-btn { grid-column: 1 / -1; }
+}
+
+/* ============ Formulaires (feuille claire) ============ */
+.tv-field { display: grid; gap: 7px; }
+.tv-label { font-weight: 600; font-size: var(--tv-fs-sm); color: var(--tv-text); }
+.tv-help { font-size: var(--tv-fs-xs); color: var(--tv-text-muted); }
+.tv-error { display: flex; align-items: center; gap: 6px; font-size: var(--tv-fs-xs); font-weight: 600; color: var(--tv-danger); }
+.tv-input, .tv-select, .tv-textarea {
+	width: 100%; min-height: 50px; padding: 12px 16px; border: 1px solid var(--tv-line-strong); border-radius: 14px;
+	background: var(--tv-surface); color: var(--tv-text); font: inherit;
+	transition: border-color var(--tv-d1) ease, box-shadow var(--tv-d1) var(--tv-ease), background-color var(--tv-d1) ease;
+}
+.tv-input::placeholder, .tv-textarea::placeholder { color: var(--tv-text-muted); opacity: 1; }
+.tv-select { appearance: none; padding-right: 44px; background: var(--tv-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2355544D' stroke-width='2'%3E%3Cpath d='m6 9.5 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center / 18px; }
+.tv-textarea { min-height: 128px; resize: vertical; }
+.tv-input:hover, .tv-select:hover, .tv-textarea:hover { border-color: var(--tv-text-muted); }
+.tv-input:focus-visible, .tv-select:focus-visible, .tv-textarea:focus-visible { outline: none; border-color: var(--tv-signal-ink); box-shadow: 0 0 0 1px var(--tv-signal-ink), 0 0 0 5px rgba(60, 235, 160, .22); }
+.tv-input[aria-invalid="true"], .tv-select[aria-invalid="true"], .tv-textarea[aria-invalid="true"] { border-color: var(--tv-danger); background-color: #FFFBFA; }
+.tv-input[aria-invalid="true"]:focus-visible, .tv-textarea[aria-invalid="true"]:focus-visible { box-shadow: 0 0 0 4px rgba(166, 50, 31, .14), 0 0 0 1px var(--tv-danger); }
+.tv-input.is-valid, .tv-field.is-valid .tv-input { border-color: var(--tv-success); }
+
+/* ============ Révélations (motion.js) ============
+ * Sans JS : tout est visible. L'état caché n'existe que sous html.tv-js (script en ligne de header.php).
+ * C : .tv-rv (fondu + montée), .tv-clip (dévoilement par masque), .tv-ml (ligne de titre par masque),
+ * .tv-fade (entrée au chargement). Ancien : .tv-reveal / .is-in (conservé). */
+.tv-js .tv-rv { opacity: 0; transform: translate3d(0, 28px, 0); transition: opacity .9s var(--tv-ease), transform .9s var(--tv-ease); transition-delay: calc(var(--i, 0) * 90ms); }
+.tv-js .tv-rv.in { opacity: 1; transform: none; }
+.tv-js .tv-clip { clip-path: inset(16% 0 0 0 round var(--tv-r-l)); transition: clip-path 1.2s var(--tv-ease), box-shadow var(--tv-d2) var(--tv-ease), transform var(--tv-d2) var(--tv-ease); transition-delay: calc(var(--i, 0) * 110ms), 0s, 0s; }
+.tv-js .tv-clip.in { clip-path: inset(0 0 0 0 round var(--tv-r-l)); }
+.tv-js .tv-clip > img { transform: scale(1.16); transition: transform 1.6s var(--tv-ease), filter .9s var(--tv-ease); }
+.tv-js .tv-clip.in > img { transform: scale(1.04); }
+.tv-js .tv-clip.in:hover > img { transform: scale(1.09); }
+.tv-ml { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+.tv-ml > span { display: block; }
+.tv-js .tv-ml > span { transform: translate3d(0, 105%, 0); transition: transform var(--tv-d3) var(--tv-ease); transition-delay: calc(var(--i, 0) * 90ms + 150ms); }
+.tv-js.is-ready .tv-ml > span { transform: none; }
+.tv-js .tv-fade { opacity: 0; transform: translate3d(0, 14px, 0); transition: opacity .9s var(--tv-ease), transform .9s var(--tv-ease); transition-delay: calc(var(--i, 0) * 90ms + 300ms); }
+.tv-js.is-ready .tv-fade { opacity: 1; transform: none; }
+
+.tv-js .tv-reveal {
+	opacity: 0; transform: translateY(var(--tv-reveal-shift));
+	transition: opacity var(--tv-dur-4) var(--tv-ease-out), transform var(--tv-dur-4) var(--tv-ease-out);
+	transition-delay: calc(min(var(--i, 0), 6) * var(--tv-stagger));
+}
+.tv-js .tv-reveal.is-in { opacity: 1; transform: none; }
+.tv-js .tv-rise { animation: tv-rise-soft var(--tv-dur-4) var(--tv-ease-out) both; animation-delay: calc(var(--i, 0) * 80ms); }
+.elementor-editor-active .tv-reveal, .elementor-editor-preview .tv-reveal,
+.elementor-editor-active .tv-rv, .elementor-editor-active .tv-fade { opacity: 1 !important; transform: none !important; }
+.elementor-editor-active .tv-clip { clip-path: none !important; }
+.elementor-editor-active .tv-ml > span { transform: none !important; }
+@keyframes tv-rise-soft { from { transform: translateY(var(--tv-reveal-shift)); } to { transform: none; } }
+@keyframes tv-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes tv-pop { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+@keyframes tv-spin { to { transform: rotate(360deg); } }
+@keyframes tv-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes tv-pulse-ring { 0% { transform: scale(.4); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
+
+/* Halo qui suit le pointeur (surfaces sombres) : .tv-glow */
+.tv-glow { --mx: 50%; --my: 50%; }
+.tv-glow::after { content: ""; position: absolute; inset: 0; z-index: 0; border-radius: inherit; pointer-events: none; opacity: 0; background: radial-gradient(420px circle at var(--mx) var(--my), rgba(60, 235, 160, .16), transparent 60%); transition: opacity .4s; }
+.tv-glow:hover::after { opacity: 1; }
+
+/* Pastille « en direct » */
+.tv-pulse { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--tv-signal); flex: none; }
+.tv-pulse::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 1px solid var(--tv-signal); animation: tv-pulse-ring 2.4s var(--tv-ease) infinite; }
+
+/* Transitions de page natives (navigateurs compatibles uniquement). */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: tv-vt-out 180ms var(--tv-ease-inout) both; }
+::view-transition-new(root) { animation: tv-vt-in 320ms var(--tv-ease-out) both; }
+.tv-nav { view-transition-name: tv-nav; }
+@keyframes tv-vt-out { to { opacity: 0; } }
+@keyframes tv-vt-in { from { opacity: 0; transform: translateY(8px); } }
+
+@media (prefers-reduced-motion: reduce) {
+	.tv-js .tv-reveal, .tv-js .tv-rv, .tv-js .tv-fade { opacity: 1 !important; transform: none !important; }
+	.tv-js .tv-ml > span { transform: none !important; }
+	.tv-js .tv-clip { clip-path: none !important; }
+	.tv-js .tv-clip > img { transform: none !important; }
+	.tv-js .tv-eyebrow__line { transform: scaleX(1); }
+	.tv-js .tv-rise { animation: none; }
+	.tv-pulse::after { animation: none; }
+	@view-transition { navigation: none; }
+}
